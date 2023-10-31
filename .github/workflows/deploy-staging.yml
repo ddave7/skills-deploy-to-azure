@@ -1,0 +1,23 @@
+# Define the name of your workflow
+name: CI
+
+# Remove the 'push' and 'workflow_dispatch' triggers
+on:
+  pull_request:
+    branches: [ "main" ]
+
+# Remove the 'jobs' section, keeping only the 'build' job with a conditional
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run a one-line script
+        run: echo Hello, world!
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+    
+    # Add a conditional to filter the job based on the 'stage' label
+    if: contains(github.event.pull_request.labels.*.name, 'stage')
